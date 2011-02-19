@@ -12,7 +12,7 @@ scm = Schema(title=TEXT(stored=True, analyzer=tk), path=ID(unique=True,stored=Tr
 
 def add_docs(w):
     w.add_document(title=u'その1', path=u'1', content=u'こんにちは世界')
-    w.add_document(title=u'その1', path=u'2', content=u'さようなら世界')
+    w.add_document(title=u'その2', path=u'2', content=u'さようなら世界')
     w.commit()
 
 def search(s, qp, text):
