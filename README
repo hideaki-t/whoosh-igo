@@ -1,0 +1,20 @@
+==========================
+ Igo Tokenizer for Whoosh
+==========================
+
+About
+=====
+
+A tokenizer for Whoosh full text search library designed for Japanese language.
+
+How To Use
+==========
+
+::
+
+ import igo.Tagger
+ import IgoTokenizer
+
+ tk = IgoTokenizer.IgoTokenizer(igo.Tagger.Tagger('ipadic'))
+ scm = Schema(title=TEXT(stored=True, analyzer=tk), path=ID(unique=True,stored=True), content=TEXT(analyzer=tk))
+
