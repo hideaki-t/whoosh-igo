@@ -11,7 +11,7 @@ setup(
     long_description = open('README').read() + "\n\n" + open('CHANGES').read(),
     author='Hideaki Takahashi',
     author_email='mymelo@gmail.com',
-    url='https://launchpad.net/igo-python/',
+    url='https://launchpad.net/igotokenizer/',
     classifiers=['Development Status :: 4 - Beta',
                  'Intended Audience :: Developers',
                  'License :: OSI Approved :: Apache Software License',
