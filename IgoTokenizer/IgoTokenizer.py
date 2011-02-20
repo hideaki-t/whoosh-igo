@@ -1,5 +1,6 @@
 from whoosh.analysis import Tokenizer, Token
 
+
 class IgoTokenizer(Tokenizer):
     def __init__(self, tagger):
         self.tagger = tagger
@@ -32,6 +33,6 @@ class IgoTokenizer(Tokenizer):
                     t.pos = pos
                     pos += 1
                 if chars:
-                    t.startchar = start_char +  m.start
+                    t.startchar = start_char + m.start
                     t.endchar = start_char + len(m.surface)
                 yield t
