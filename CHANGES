@@ -1,6 +1,9 @@
-Changelog for Whoosh-Igo
-========================
+Changelog for Japanese Tokenizers for Whoosh
+============================================
 
 2011-02-19 -- 0.1
     * first release.
 
+2011-02-21 -- 0.2
+    * add TinySegmenterTokenizer
+    * change module name

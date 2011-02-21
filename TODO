@@ -1,0 +1,3 @@
+use base form(option)
+add POS filtering
+Unicode normalization

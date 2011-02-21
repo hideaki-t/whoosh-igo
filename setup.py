@@ -6,8 +6,8 @@ from setuptools import setup
 
 setup(
     name='whoosh-igo',
-    version='0.1',
-    description='a tokenizer for Whoosh designed for Japanese language',
+    version='0.2',
+    description='tokenizers for Whoosh designed for Japanese language',
     long_description = open('README').read() + "\n\n" + open('CHANGES').read(),
     author='Hideaki Takahashi',
     author_email='mymelo@gmail.com',
