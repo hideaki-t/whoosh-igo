@@ -8,10 +8,13 @@ About
 Tokenizers for Whoosh full text search library designed for Japanese language.
 This package conteins two Tokenizers.
 
- * IgoTokenizer
-  * requires igo-python(http://pypi.python.org/pypi/igo-python/) and its dictionary.
- * TinySegmenterTokenizer
-  * requires TinySegmenter in Python(https://code.google.com/p/mhagiwara/source/browse/trunk/nltk/jpbook/tinysegmenter.py)
+* IgoTokenizer
+
+ + requires igo-python(http://pypi.python.org/pypi/igo-python/) and its dictionary.
+
+* TinySegmenterTokenizer
+
+ + requires TinySegmenter in Python(https://code.google.com/p/mhagiwara/source/browse/trunk/nltk/jpbook/tinysegmenter.py)
 
 
 How To Use

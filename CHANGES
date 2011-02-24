@@ -7,3 +7,6 @@ Changelog for Japanese Tokenizers for Whoosh
 2011-02-21 -- 0.2
     * add TinySegmenterTokenizer
     * change module name
+
+2011-02-24 -- 0.4
+    * add FeatureFilter

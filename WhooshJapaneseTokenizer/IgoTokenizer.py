@@ -24,6 +24,7 @@ class IgoTokenizer(Tokenizer):
             pos = start_pos
             for m in self.tagger.parse(value):
                 t.text = m.surface
+                t.feature = m.feature
                 # TODO: use base form.
                 t.boost = 1.0
                 if keeporiginal:
