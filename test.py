@@ -44,6 +44,11 @@ for i in tk(u'今日はいい天気'):
     print i.text, i.stopped
 test_(tk)
 
+import MeCab
+print 'MeCab'
+tk = WhooshJapaneseTokenizer.MeCabTokenizer()
+test_(tk)
+
 
 import tinysegmenter
 tk = WhooshJapaneseTokenizer.TinySegmenterTokenizer(tinysegmenter.TinySegmenter())

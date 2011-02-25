@@ -1,2 +1,3 @@
 from IgoTokenizer import IgoTokenizer
 from TinySegmenterTokenizer import TinySegmenterTokenizer
+from MeCabTokenizer import MeCabTokenizer
