@@ -16,6 +16,10 @@ This package conteins two Tokenizers.
 
  + requires TinySegmenter in Python(https://code.google.com/p/mhagiwara/source/browse/trunk/nltk/jpbook/tinysegmenter.py)
 
+* MeCabTokenizer
+
+ * requires MeCab python binding(http://mecab.sourceforge.net/bindings.html)
+
 
 How To Use
 ==========

@@ -1,9 +1,25 @@
 from whoosh.analysis import Tokenizer, Token
+import igo.Tagger
 
 
 class IgoTokenizer(Tokenizer):
-    def __init__(self, tagger):
-        self.tagger = tagger
+    def __init__(self, tagger=None, **tagger_initparam):
+        if tagger:
+            self.tagger = tagger
+        else:
+            self.tagger = igo.Tagger.Tagger(**tagger_initparam)
+        self.tagger_initparam = tagger_initparam
+
+    def __getstate__(self):
+        if not self.tagger_initparam:
+            return self.__dict__
+        return dict([(k, self.__dict__[k]) for k in self.__dict__
+                     if k != "tagger"])
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        if not hasattr(self, 'tagger'):
+            self.tagger = igo.Tagger.Tagger(**self.tagger_initparam)
 
     def __call__(self, value, positions=False, chars=False,
                  keeporiginal=False, removestops=True,

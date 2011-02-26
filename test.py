@@ -38,6 +38,7 @@ def test_(tk):
 import WhooshJapaneseTokenizer
 import WhooshJapaneseTokenizer.Filters
 import igo.Tagger
+tk = WhooshJapaneseTokenizer.IgoTokenizer(dataDir='ipadic', gae=False)
 tk = WhooshJapaneseTokenizer.IgoTokenizer(igo.Tagger.Tagger('ipadic'))
 tk = tk | WhooshJapaneseTokenizer.Filters.FeatureFilter([u'^助詞,係助詞.*$'])
 for i in tk(u'今日はいい天気'):
