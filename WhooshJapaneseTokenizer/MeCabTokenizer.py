@@ -32,9 +32,14 @@ class MeCabTokenizer(Tokenizer):
         else:
             pos = start_pos
             offset = start_char
+	    byte_offset = 0
             # TODO: support other encodings
-            m = self.tagger.parseToNode(value.encode('utf-8')).next
+	    byte = value.encode('utf-8')
+            m = self.tagger.parseToNode(byte)
             while m:
+	        if len(m.surface) == 0:
+		    m = m.next
+		    continue
                 t.text = m.surface.decode('utf-8')
                 t.feature = m.feature
                 # TODO: use base form.
@@ -46,8 +51,11 @@ class MeCabTokenizer(Tokenizer):
                     t.pos = pos
                     pos += 1
                 if chars:
-                    t.startchar = offset + m.rlength - m.length
-                    t.endchar = t.startchar + m.length
+		    s = byte_offset + m.rlength - m.length
+                    e = s + m.length
+                    t.startchar = offset + len(byte[byte_offset:s].decode('utf-8'))
+                    t.endchar = t.startchar + len(byte[s:e].decode('utf-8'))
                     offset = t.endchar
+                    byte_offset = e
                 m = m.next
                 yield t

@@ -1,3 +1,4 @@
+# coding:utf-8
 from whoosh.analysis import Tokenizer, Token
 import igo.Tagger
 
@@ -51,5 +52,5 @@ class IgoTokenizer(Tokenizer):
                     pos += 1
                 if chars:
                     t.startchar = start_char + m.start
-                    t.endchar = start_char + len(m.surface)
+                    t.endchar = t.startchar + len(m.surface)
                 yield t

@@ -14,3 +14,7 @@ Changelog for Japanese Tokenizers for Whoosh
 2011-02-27 -- 0.4
     * add MeCabTokenizer
     * add a mode for don't pickle igo tagger to minimize index.
+
+2011-04-17 -- 0.5
+    * correct char offsets
+
