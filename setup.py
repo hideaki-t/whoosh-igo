@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name='whoosh-igo',
-    version='0.5',
+    version='0.6',
     description='tokenizers for Whoosh designed for Japanese language',
     long_description = open('README').read() + "\n\n" + open('CHANGES').read(),
     author='Hideaki Takahashi',
@@ -19,9 +19,9 @@ setup(
                  'Operating System :: OS Independent',
                  'Operating System :: Microsoft :: Windows',
                  'Operating System :: POSIX :: Linux',
-                 'Programming Language :: Python :: 2',
                  'Programming Language :: Python :: 2.5',
                  'Programming Language :: Python :: 2.6',
+                 'Programming Language :: Python :: 2.7',
                  'Topic :: Scientific/Engineering :: Information Analysis',
                  'Topic :: Software Development :: Libraries :: Python Modules',
                  'Topic :: Text Processing :: Linguistic',

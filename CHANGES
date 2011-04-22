@@ -18,3 +18,5 @@ Changelog for Japanese Tokenizers for Whoosh
 2011-04-17 -- 0.5
     * correct char offsets
 
+2011-04-17 -- 0.5
+    * correct char offsets(TinySegmenterTokenizer)

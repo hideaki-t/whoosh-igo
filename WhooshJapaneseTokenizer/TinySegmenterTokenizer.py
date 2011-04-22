@@ -30,7 +30,7 @@ class TinySegmenterTokenizer(Tokenizer):
 
             pos = start_pos
             startchar = start_char
-            for s in [strip(s) for s in self.segmenter.tokenize(value)]:
+            for s, l in [(strip(s), len(s)) for s in self.segmenter.tokenize(value)]:
                 t.text = s
                 t.boost = 1.0
                 if keeporiginal:
@@ -41,6 +41,6 @@ class TinySegmenterTokenizer(Tokenizer):
                     pos += 1
                 if chars:
                     t.startchar = startchar
-                    startchar += len(s)
+                    startchar += l
                     t.endchar = startchar
                 yield t
