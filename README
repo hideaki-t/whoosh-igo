@@ -27,17 +27,19 @@ How To Use
 IgoTokenizer::
 
  import igo.Tagger
- import WhooshJapaneseTokenizer
+ import whooshjp
+ from whooshjp.IgoTokenizer import IgoTokenizer
 
- tk = WhooshJapaneseTokenizer.IgoTokenizer(igo.Tagger.Tagger('ipadic'))
+ tk = IgoTokenizer(igo.Tagger.Tagger('ipadic'))
  scm = Schema(title=TEXT(stored=True, analyzer=tk), path=ID(unique=True,stored=True), content=TEXT(analyzer=tk))
 
 
 TinySegmenterTokenizer::
 
- import WhooshJapaneseTokenizer
  import tinysegmenter
+ import whooshjp
+ from whooshjp.TinySegmenterTokenizer import TinySegmenterTokenizer
 
- tk = WhooshJapaneseTokenizer.TinySegmenterTokenizer(tinysegmenter.TinySegmenter())
+ tk = TinySegmenterTokenizer(tinysegmenter.TinySegmenter())
  scm = Schema(title=TEXT(stored=True, analyzer=tk), path=ID(unique=True,stored=True), content=TEXT(analyzer=tk))
 
