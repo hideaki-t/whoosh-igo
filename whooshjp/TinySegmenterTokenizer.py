@@ -1,4 +1,6 @@
 from whoosh.analysis import Tokenizer, Token
+from whoosh.compat import text_type
+
 
 class TinySegmenterTokenizer(Tokenizer):
     def __init__(self, segmenter, strip=True):
@@ -9,7 +11,7 @@ class TinySegmenterTokenizer(Tokenizer):
                  keeporiginal=False, removestops=True,
                  start_pos=0, start_char=0,
                  tokenize=True, mode='', **kwargs):
-        assert isinstance(value, unicode), "%r is not unicode" % value
+        assert isinstance(value, text_type), "%r is not unicode" % value
         t = Token(positions, chars, removestops=removestops, mode=mode)
         if not tokenize:
             t.original = t.text = value
@@ -22,15 +24,14 @@ class TinySegmenterTokenizer(Tokenizer):
             yield t
         else:
             if self.strip:
-                def strip(s):
-                    return s.strip()
+                strip = lambda s: s.strip()
             else:
-                def strip(s):
-                    return s
-
+                strip = lambda s: s
             pos = start_pos
             startchar = start_char
-            for s, l in [(strip(s), len(s)) for s in self.segmenter.tokenize(value)]:
+            for s, l in \
+                    [(strip(s), len(s)) for s in
+                     self.segmenter.tokenize(value)]:
                 t.text = s
                 t.boost = 1.0
                 if keeporiginal:

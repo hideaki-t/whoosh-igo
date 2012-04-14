@@ -1,5 +1,7 @@
 from whoosh.analysis import Tokenizer, Token
+from whoosh.compat import text_type
 import MeCab
+
 
 class MeCabTokenizer(Tokenizer):
     def __init__(self, conf=''):
@@ -18,7 +20,7 @@ class MeCabTokenizer(Tokenizer):
                  keeporiginal=False, removestops=True,
                  start_pos=0, start_char=0,
                  tokenize=True, mode='', **kwargs):
-        assert isinstance(value, unicode), "%r is not unicode" % value
+        assert isinstance(value, text_type), "%r is not unicode" % value
         t = Token(positions, chars, removestops=removestops, mode=mode)
         if not tokenize:
             t.original = t.text = value
@@ -32,14 +34,14 @@ class MeCabTokenizer(Tokenizer):
         else:
             pos = start_pos
             offset = start_char
-	    byte_offset = 0
+            byte_offset = 0
             # TODO: support other encodings
-	    byte = value.encode('utf-8')
+            byte = value.encode('utf-8')
             m = self.tagger.parseToNode(byte)
             while m:
-	        if len(m.surface) == 0:
-		    m = m.next
-		    continue
+                if len(m.surface) == 0:
+                    m = m.next
+                    continue
                 t.text = m.surface.decode('utf-8')
                 t.feature = m.feature
                 # TODO: use base form.
@@ -51,9 +53,10 @@ class MeCabTokenizer(Tokenizer):
                     t.pos = pos
                     pos += 1
                 if chars:
-		    s = byte_offset + m.rlength - m.length
+                    s = byte_offset + m.rlength - m.length
                     e = s + m.length
-                    t.startchar = offset + len(byte[byte_offset:s].decode('utf-8'))
+                    t.startchar = offset + \
+                        len(byte[byte_offset:s].decode('utf-8'))
                     t.endchar = t.startchar + len(byte[s:e].decode('utf-8'))
                     offset = t.endchar
                     byte_offset = e

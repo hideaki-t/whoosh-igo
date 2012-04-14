@@ -1,5 +1,6 @@
 # coding:utf-8
 from whoosh.analysis import Tokenizer, Token
+from whoosh.compat import text_type
 import igo.Tagger
 
 
@@ -26,7 +27,7 @@ class IgoTokenizer(Tokenizer):
                  keeporiginal=False, removestops=True,
                  start_pos=0, start_char=0,
                  tokenize=True, mode='', **kwargs):
-        assert isinstance(value, unicode), "%r is not unicode" % value
+        assert isinstance(value, text_type), "%r is not unicode" % value
         t = Token(positions, chars, removestops=removestops, mode=mode)
         if not tokenize:
             t.original = t.text = value
