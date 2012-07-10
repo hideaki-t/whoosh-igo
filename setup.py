@@ -28,5 +28,5 @@ setup(
                  ],
     keywords=['japanese', 'tokenizer',],
     license='Apache License, Version 2.0',
-    packages=['WhooshJapaneseTokenizer'],
+    packages=['whooshjp'],
     )
