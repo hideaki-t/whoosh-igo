@@ -18,5 +18,13 @@ Changelog for Japanese Tokenizers for Whoosh
 2011-04-17 -- 0.5
     * correct char offsets
 
-2011-04-17 -- 0.5
+2011-04-17 -- 0.6
     * correct char offsets(TinySegmenterTokenizer)
+
+2012-04-14 -- 0.7
+    * rename package(WhooshJapaneseTokenizer to whooshjp)
+    * no longer import sub modules automatically
+    * Python3 compatibility(3.2, 3.3)
+    * Drop Python2.5 support
+
+
