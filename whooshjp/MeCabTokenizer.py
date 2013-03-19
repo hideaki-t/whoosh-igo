@@ -14,7 +14,7 @@ class MeCabTokenizer(Tokenizer):
 
     def __setstate__(self, state):
         self.__dict__.update(state)
-        self.tagger = MeCab.Tagger(conf)
+        self.tagger = MeCab.Tagger(self.conf)
 
     def __call__(self, value, positions=False, chars=False,
                  keeporiginal=False, removestops=True,
