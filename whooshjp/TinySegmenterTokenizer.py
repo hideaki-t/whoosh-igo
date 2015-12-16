@@ -1,10 +1,10 @@
 from whoosh.analysis import Tokenizer, Token
 from whoosh.compat import text_type
+import tinysegmenter
 
 
 class TinySegmenterTokenizer(Tokenizer):
-    def __init__(self, segmenter, strip=True):
-        self.segmenter = segmenter
+    def __init__(self, strip=True):
         self.strip = strip
 
     def __call__(self, value, positions=False, chars=False,
@@ -24,14 +24,16 @@ class TinySegmenterTokenizer(Tokenizer):
             yield t
         else:
             if self.strip:
-                strip = lambda s: s.strip()
+                strip = text_type.strip
             else:
-                strip = lambda s: s
+                def strip(s):
+                    return s
+
             pos = start_pos
             startchar = start_char
             for s, l in \
-                    [(strip(s), len(s)) for s in
-                     self.segmenter.tokenize(value)]:
+                    ((strip(s), len(s)) for s in
+                     tinysegmenter.tokenize(value)):
                 t.text = s
                 t.boost = 1.0
                 if keeporiginal:

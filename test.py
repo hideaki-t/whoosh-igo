@@ -16,13 +16,17 @@ def add_docs(w):
     w.add_document(title='その4', path='4', content='これは日本語をテストする文章です。')
     w.commit()
 
+
 def search(s, qp, text):
     print('search ' + text)
     for r in s.search(qp.parse(text)):
         print(r['path'], r['title'])
 
+
 def test_(tk):
-    scm = Schema(title=TEXT(stored=True, analyzer=tk), path=ID(unique=True,stored=True), content=TEXT(stored=True, analyzer=tk))
+    scm = Schema(title=TEXT(stored=True, analyzer=tk),
+                 path=ID(unique=True, stored=True),
+                 content=TEXT(stored=True, analyzer=tk))
     if not os.path.exists("indexdir"):
         os.mkdir("indexdir")
     ix = create_in('indexdir', scm)
@@ -41,6 +45,7 @@ def test_(tk):
     search(s, qp, "は")
     ix.close()
 
+
 def test_tokenize(tk):
     for i in tk('今日はいい天気'):
         print(i.text, i.stopped)
@@ -50,35 +55,32 @@ def test_tokenize(tk):
 try:
     print('Igo')
     from whooshjp.IgoTokenizer import IgoTokenizer
-    import igo.Tagger
-    tk = IgoTokenizer(dataDir='ipadic', gae=False)
-    tk = IgoTokenizer(igo.Tagger.Tagger('ipadic'))
+    tk = IgoTokenizer()
     test_tokenize(tk)
+    tk = IgoTokenizer()
     tk = tk | whooshjp.Filters.FeatureFilter(['^助詞,係助詞.*$'])
     test_(tk)
     test_tokenize(tk)
-except:
+except ImportError:
     print('skip')
 
+raise SystemExit
 try:
     print('MeCab')
-    import MeCab
     from whooshjp.MeCabTokenizer import MeCabTokenizer
     tk = MeCabTokenizer()
     test_tokenize(tk)
     tk = tk | whooshjp.Filters.FeatureFilter(['^助詞,係助詞.*$'])
     test_(tk)
     test_tokenize(tk)
-except:
+except ImportError:
     print('skip')
 
 try:
     print('TinySegmenter')
-    import tinysegmenter
     from whooshjp.TinySegmenterTokenizer import TinySegmenterTokenizer
-    tk = TinySegmenterTokenizer(tinysegmenter.TinySegmenter())
+    tk = TinySegmenterTokenizer()
     test_(tk)
     test_tokenize(tk)
-except:
+except ImportError:
     print('skip')
-

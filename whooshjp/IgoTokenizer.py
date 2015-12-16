@@ -8,15 +8,15 @@ class IgoTokenizer(Tokenizer):
     def __init__(self, tagger=None, **tagger_initparam):
         if tagger:
             self.tagger = tagger
+            self.tagger_initparam = None
         else:
             self.tagger = igo.Tagger.Tagger(**tagger_initparam)
-        self.tagger_initparam = tagger_initparam
+            self.tagger_initparam = tagger_initparam
 
     def __getstate__(self):
-        if not self.tagger_initparam:
+        if self.tagger_initparam is not None:
             return self.__dict__
-        return dict([(k, self.__dict__[k]) for k in self.__dict__
-                     if k != "tagger"])
+        return {k: v for k, v in self.__dict__.items() if k != "tagger"}
 
     def __setstate__(self, state):
         self.__dict__.update(state)

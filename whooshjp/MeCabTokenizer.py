@@ -1,26 +1,43 @@
 from whoosh.analysis import Tokenizer, Token
-from whoosh.compat import text_type
+from whoosh.compat import text_type, PY3
 import MeCab
 
 
+if PY3:
+    def toMeCab(s, encoding=None):
+        return s
+
+    def fromMeCab(s, encoding=None):
+        return s
+else:
+    def toMeCab(s, encoding='utf-8'):
+        return s.encode(encoding)
+
+    def fromMeCab(s, encoding='utf-8'):
+        return s.decode(encoding)
+
+
 class MeCabTokenizer(Tokenizer):
-    def __init__(self, conf=''):
+    def __init__(self, conf='', encoding='utf-8'):
         self.conf = conf
+        self.encoding = encoding
         self.tagger = MeCab.Tagger(conf)
+        self.tagger.parseToNode(toMeCab(''))
 
     def __getstate__(self):
-        return dict([(k, self.__dict__[k]) for k in self.__dict__
-                     if k != "tagger"])
+        return {k: v for k, v in self.__dict__.items() if k != "tagger"}
 
     def __setstate__(self, state):
         self.__dict__.update(state)
         self.tagger = MeCab.Tagger(self.conf)
+        self.tagger.parseToNode(toMeCab(''))
 
     def __call__(self, value, positions=False, chars=False,
                  keeporiginal=False, removestops=True,
                  start_pos=0, start_char=0,
                  tokenize=True, mode='', **kwargs):
         assert isinstance(value, text_type), "%r is not unicode" % value
+        enc = self.encoding
         t = Token(positions, chars, removestops=removestops, mode=mode)
         if not tokenize:
             t.original = t.text = value
@@ -35,15 +52,14 @@ class MeCabTokenizer(Tokenizer):
             pos = start_pos
             offset = start_char
             byte_offset = 0
-            # TODO: support other encodings
             byte = value.encode('utf-8')
-            m = self.tagger.parseToNode(byte)
+            m = self.tagger.parseToNode(toMeCab(value))
             while m:
                 if len(m.surface) == 0:
                     m = m.next
                     continue
-                t.text = m.surface.decode('utf-8')
-                t.feature = m.feature
+                t.text = fromMeCab(m.surface, enc)
+                t.feature = fromMeCab(m.feature, enc)
                 # TODO: use base form.
                 t.boost = 1.0
                 if keeporiginal:
@@ -55,9 +71,9 @@ class MeCabTokenizer(Tokenizer):
                 if chars:
                     s = byte_offset + m.rlength - m.length
                     e = s + m.length
-                    t.startchar = offset + \
-                        len(byte[byte_offset:s].decode('utf-8'))
-                    t.endchar = t.startchar + len(byte[s:e].decode('utf-8'))
+                    # convert num of byte to num of unicode chars
+                    t.startchar = offset + len(byte[byte_offset:s].decode(enc))
+                    t.endchar = t.startchar + len(byte[s:e].decode(enc))
                     offset = t.endchar
                     byte_offset = e
                 m = m.next

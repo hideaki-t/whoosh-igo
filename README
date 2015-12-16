@@ -6,7 +6,7 @@ About
 =====
 
 Tokenizers for Whoosh full text search library designed for Japanese language.
-This package conteins two Tokenizers.
+This package contains two Tokenizers.
 
 * IgoTokenizer
 
@@ -14,11 +14,11 @@ This package conteins two Tokenizers.
 
 * TinySegmenterTokenizer
 
- + requires TinySegmenter in Python(https://code.google.com/p/mhagiwara/source/browse/trunk/nltk/jpbook/tinysegmenter.py)
+ + requires TinySegmenter (https://pypi.python.org/pypi/tinysegmenter3)
 
 * MeCabTokenizer
 
- * requires MeCab python binding(http://mecab.sourceforge.net/bindings.html)
+ * requires one of MeCab python bindings https://pypi.python.org/pypi/mecab-python or https://pypi.python.org/pypi/mecab-python3
 
 
 How To Use
@@ -30,7 +30,7 @@ IgoTokenizer::
  import whooshjp
  from whooshjp.IgoTokenizer import IgoTokenizer
 
- tk = IgoTokenizer(igo.Tagger.Tagger('ipadic'))
+ tk = IgoTokenizer()
  scm = Schema(title=TEXT(stored=True, analyzer=tk), path=ID(unique=True,stored=True), content=TEXT(analyzer=tk))
 
 
@@ -40,6 +40,20 @@ TinySegmenterTokenizer::
  import whooshjp
  from whooshjp.TinySegmenterTokenizer import TinySegmenterTokenizer
 
- tk = TinySegmenterTokenizer(tinysegmenter.TinySegmenter())
+ tk = TinySegmenterTokenizer()
  scm = Schema(title=TEXT(stored=True, analyzer=tk), path=ID(unique=True,stored=True), content=TEXT(analyzer=tk))
 
+Note
+====
+
+IgoTokenizer
+------------
+
+Whoosh stores a schema including a tokenizer into an index. If the stored schema includes the dictionary used in IgoTokenizer, the size of index might be too large. Storing a schema into an index is a great idea. You just need an index to search. Even your dictionary has been updated, the index has the dictionary used at indexing time.
+
+Also an error will be happened when opening an index with mmap mode IgoTokenizer, since mmaped dictionary will not be stored into an index.
+If you already built an index with mmap mode IgoTokenizer, you can open it by passing a schema to whoosh.index.open_dir. e.g. open_dir(path_to_index, schema=an_schema)
+
+To avoid storing *full* tokenizer, IgoTokenizer has 2 instantiation modes.
+ 1. passing an igo tagger object. i.e. IgoTokenizer(IgoTagger(path='dic')). an instance created by this will store everything including loaded dictionary.
+ 2. passing arguments for instantiating an igo tokenizer. i.e. IgoTokenizer(path='dic'). Only the arguments will be stored, and instantiate an igo tokenizer with the arguments when an index which uses IgoTokenizer with this mode is opened. If no arguments are not given to IgoTokenizer initializer, i.e. IgoTokenizer(), it is also considered as a this mode, an IgoTagger will be instantiated without any arguments.
